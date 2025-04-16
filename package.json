@@ -1,0 +1,20 @@
+{
+  "name": "cottoncuddles",
+  "version": "1.0.0",
+  "description": "E-commerce site for selling cotton baby clothes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AleksandarDmitrovic/CottonCuddles.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AleksandarDmitrovic/CottonCuddles/issues"
+  },
+  "homepage": "https://github.com/AleksandarDmitrovic/CottonCuddles#readme"
+}
