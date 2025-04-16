@@ -6,6 +6,8 @@ const app = express();
 
 app.use(helmet());
 // Helmet is a security middleware that helps you protect your Express apps by setting various HTTP headers
+app.use(morgan("dev")); 
+// Log the requests to the console
 
 app.get("/", (req, res) => {
   console.log(res.getHeaders());
