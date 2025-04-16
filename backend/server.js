@@ -4,6 +4,8 @@ import morgan from "morgan";
 
 const app = express();
 
+app.use(express.json());
+app.use(cors());
 app.use(helmet());
 // Helmet is a security middleware that helps you protect your Express apps by setting various HTTP headers
 app.use(morgan("dev")); 
