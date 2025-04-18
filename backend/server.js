@@ -45,7 +45,7 @@ app.post("/", async (req, res) => {
 app.get("/setup", async (res, req) => {
   try {
     await pool.query(
-      "DROP TABLE IF EXISTS products CASCADE; CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);"
+      "DROP TABLE IF EXISTS products CASCADE; CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
     );
     console.log("Table created successfully");
     res.status(200).send({ message: "Table created successfully" });

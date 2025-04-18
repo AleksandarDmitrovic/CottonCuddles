@@ -1,6 +1,16 @@
+import pool from "../db/index.js";
+
 export const getProducts = async (req, res) => {
-  // GET ALL PRODUCTS
-  res.send("Product route is working");
+  try {
+    const data = await pool.query(
+      "SELECT * FROM products ORDER BY created_at DESC"
+    );
+    console.log("data :", data);
+    res.status(200).json({ success: true, data: data.rows });
+    res.status(200).send(data.rows);
+  } catch (error) {
+    console.error("Error retrieving data from the database", error);
+  }
 };
 
 export const createProduct = async (req, res) => {};
