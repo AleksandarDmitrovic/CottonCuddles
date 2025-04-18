@@ -25,12 +25,28 @@ app.get("/", (req, res) => {
   res.sendStatus(200);
 });
 
-app.post("/", (req, res) => {
+app.post("/", async (req, res) => {
   const { name, location } = req.body;
+  try {
+    await pool.query("INSERT INTO products (name) VALUES ($1)", [name]);
+    res.status(200).send({
+      message: `Successfully inserted ${name} product into the database`,
+    });
+  } catch (error) {
+    console.error("Error inserting data into the database", error);
+  }
+});
 
-  res.status(200).send({
-    message: `Your Keys are ${name} and ${location}`,
-  });
+app.get("/setup", async (res, req) => {
+  try {
+    await pool.query(
+      "CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(100)"
+    );
+    res.status(200).send({ message: "Table created successfully" });
+  } catch (error) {
+    console.error("Error setting up the database", error);
+    res.sendStatus(500).send("Error setting up the database");
+  }
 });
 
 // const initDB = async () => {
