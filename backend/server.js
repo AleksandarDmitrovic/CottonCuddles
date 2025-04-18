@@ -21,12 +21,17 @@ app.use(morgan("dev"));
 
 app.use("/api/products", productRoutes);
 
-app.get("/", (req, res) => {
-  res.sendStatus(200);
+app.get("/", async (req, res) => {
+  try {
+    const data = await pool.query("SELECT * from products");
+    res.status(200).send(data.rows);
+  } catch (error) {
+    console.error("Error recieving data from the database", error);
+  }
 });
 
 app.post("/", async (req, res) => {
-  const { name, location } = req.body;
+  const { name } = req.body;
   try {
     await pool.query("INSERT INTO products (name) VALUES ($1)", [name]);
     res.status(200).send({
@@ -40,12 +45,13 @@ app.post("/", async (req, res) => {
 app.get("/setup", async (res, req) => {
   try {
     await pool.query(
-      "CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(100)"
+      "DROP TABLE IF EXISTS products CASCADE; CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);"
     );
+    console.log("Table created successfully");
     res.status(200).send({ message: "Table created successfully" });
   } catch (error) {
     console.error("Error setting up the database", error);
-    res.sendStatus(500).send("Error setting up the database");
+    // res.status(500).send("Error setting up the database");
   }
 });
 
