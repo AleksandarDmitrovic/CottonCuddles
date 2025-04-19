@@ -7,9 +7,9 @@ export const getProducts = async (req, res) => {
     );
     console.log("data :", data);
     res.status(200).json({ success: true, data: data.rows });
-    res.status(200).send(data.rows);
   } catch (error) {
     console.error("Error retrieving data from the database", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
