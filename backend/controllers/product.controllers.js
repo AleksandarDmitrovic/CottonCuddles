@@ -56,6 +56,7 @@ export const getProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
 export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, price, image } = req.body;
@@ -81,4 +82,30 @@ export const updateProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
-export const deleteProduct = async (req, res) => {};
+
+export const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await pool.query(
+      "DELETE FROM products WHERE id=$1 RETURNING *",
+      [id]
+    );
+
+    if (data.rowCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    const { name } = data.rows[0];
+    res.status(200).json({
+      success: true,
+      message: `Successfully deleted product ${name} with id ${id}`,
+      data: data.rows[0],
+    });
+  } catch (error) {
+    console.error("Error in deleteProduct", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
