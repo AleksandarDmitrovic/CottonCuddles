@@ -42,8 +42,14 @@ export const createProduct = async (req, res) => {
 export const getProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = pool.query("SELECT * FROM products WHERE id={$1}", [id]);
+    const data = await pool.query("SELECT * FROM products WHERE id=$1", [id]);
     console.log("data :", data);
+    if (data.rowCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
     res.status(200).json({ success: true, data: data.rows });
   } catch (error) {
     console.error("Error in getProduct", error);
