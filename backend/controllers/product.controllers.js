@@ -56,5 +56,29 @@ export const getProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
-export const updateProduct = async (req, res) => {};
+export const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, price, image } = req.body;
+  try {
+    const data = await pool.query(
+      "UPDATE products SET name=$1, price=$2, image=$3 WHERE id=$4 RETURNING *",
+      [name, price, image, id]
+    );
+
+    if (data.rowCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `Successfully updated product ${name}`,
+      data: data.rows[0],
+    });
+  } catch (error) {
+    console.error("Error in updateProduct", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
 export const deleteProduct = async (req, res) => {};

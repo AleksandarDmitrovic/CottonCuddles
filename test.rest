@@ -1,5 +1,5 @@
 ###
-GET http://localhost:3000
+GET http://localhost:3000/api/products/1
 
 
 ###
@@ -9,6 +9,14 @@ GET http://localhost:3000/api/products/
 ###
 
 POST http://localhost:3000
+Content-Type: application/json
+
+{
+  "name": "shirt",
+}
+
+###
+PUT http://localhost:3000/api/products/1
 Content-Type: application/json
 
 {
