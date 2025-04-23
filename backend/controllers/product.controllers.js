@@ -31,7 +31,7 @@ export const createProduct = async (req, res) => {
     res.status(201).json({
       success: true,
       message: `Successfully inserted ${name} product into the database`,
-      data: newProduct[0],
+      data: newProduct.rows[0],
     });
   } catch (error) {
     console.error("Error in createProduct", error);
