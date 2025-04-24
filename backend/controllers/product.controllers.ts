@@ -18,9 +18,10 @@ export const createProduct = async (req: Request, res: Response) => {
   const { name, price, image } = req.body;
 
   if (!name || !price || !image) {
-    return res
+    res
       .status(400)
       .json({ success: false, message: "All fields are required" });
+    return;
   }
 
   try {
@@ -46,10 +47,11 @@ export const getProduct = async (req: Request, res: Response) => {
     const data = await pool.query("SELECT * FROM products WHERE id=$1", [id]);
     console.log("data :", data);
     if (data.rowCount === 0) {
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
         message: "Product not found",
       });
+      return;
     }
     res.status(200).json({ success: true, data: data.rows });
   } catch (error) {
@@ -68,10 +70,11 @@ export const updateProduct = async (req: Request, res: Response) => {
     );
 
     if (data.rowCount === 0) {
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
         message: "Product not found",
       });
+      return;
     }
     res.status(200).json({
       success: true,
@@ -93,10 +96,11 @@ export const deleteProduct = async (req: Request, res: Response) => {
     );
 
     if (data.rowCount === 0) {
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
         message: "Product not found",
       });
+      return;
     }
 
     const { name } = data.rows[0];
