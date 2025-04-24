@@ -2,9 +2,12 @@
   "name": "cottoncuddles",
   "version": "1.0.0",
   "description": "E-commerce site for selling cotton baby clothes",
-  "main": "backend/server.js",
+  "main": "backend/server.ts",
   "scripts": {
-    "dev": "nodemon backend/server.js"
+    "build": "tsc",
+    "start": "tsx backend/server.ts",
+    "dev": "nodemon --watch backend/**/*.ts --exec tsx backend/server.ts",
+    "lint": "eslint 'backend/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -39,6 +42,7 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   }
 }

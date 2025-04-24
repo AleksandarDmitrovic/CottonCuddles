@@ -4,8 +4,8 @@ import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import productRoutes from "./routes/product.routes.js";
-import pool from "./db/index.js";
+import productRoutes from "./routes/product.routes";
+import pool from "./db/index";
 
 dotenv.config();
 
@@ -45,7 +45,7 @@ app.post("/", async (req, res) => {
 app.get("/setup", async (req, res) => {
   try {
     await pool.query(
-      "DROP TABLE IF EXISTS products CASCADE; CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, price DECIMAL(10, 2) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
+      "DROP TABLE IF EXISTS products CASCADE; CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, price DECIMAL(10, 2) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);",
     );
     console.log("Table created successfully");
     res.status(200).send({ message: "Table created successfully" });
