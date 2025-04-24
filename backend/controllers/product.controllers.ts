@@ -1,4 +1,4 @@
-import pool from "../db/index.js";
+import pool from "../db/index";
 
 export const getProducts = async (req, res) => {
   try {

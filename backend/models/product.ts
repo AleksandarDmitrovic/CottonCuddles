@@ -6,5 +6,3 @@ export interface Product {
   createdAt: Date;
   updatedAt: Date;
 }
-
-export const products: Product[] = [];
