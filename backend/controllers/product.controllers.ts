@@ -1,6 +1,7 @@
 import pool from "../db/index";
+import { Request, Response } from "express";
 
-export const getProducts = async (req, res) => {
+export const getProducts = async (req: Request, res: Response) => {
   try {
     const data = await pool.query(
       "SELECT * FROM products ORDER BY created_at DESC"
@@ -13,7 +14,7 @@ export const getProducts = async (req, res) => {
   }
 };
 
-export const createProduct = async (req, res) => {
+export const createProduct = async (req: Request, res: Response) => {
   const { name, price, image } = req.body;
 
   if (!name || !price || !image) {
@@ -39,7 +40,7 @@ export const createProduct = async (req, res) => {
   }
 };
 
-export const getProduct = async (req, res) => {
+export const getProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const data = await pool.query("SELECT * FROM products WHERE id=$1", [id]);
@@ -57,7 +58,7 @@ export const getProduct = async (req, res) => {
   }
 };
 
-export const updateProduct = async (req, res) => {
+export const updateProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, price, image } = req.body;
   try {
@@ -83,7 +84,7 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-export const deleteProduct = async (req, res) => {
+export const deleteProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const data = await pool.query(
