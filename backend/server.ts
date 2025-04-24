@@ -42,7 +42,7 @@ app.post("/", async (req, res) => {
   }
 });
 
-app.get("/setup", async (res, req) => {
+app.get("/setup", async (req, res) => {
   try {
     await pool.query(
       "DROP TABLE IF EXISTS products CASCADE; CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, price DECIMAL(10, 2) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"

@@ -22,6 +22,8 @@
     "@arcjet/inspect": "^1.0.0-beta.6",
     "@arcjet/node": "^1.0.0-beta.5",
     "@neondatabase/serverless": "^1.0.0",
+    "@types/cors": "^2.8.17",
+    "@types/morgan": "^1.9.9",
     "@types/pg": "^8.11.14",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
