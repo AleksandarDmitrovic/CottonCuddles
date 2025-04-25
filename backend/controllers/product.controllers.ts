@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 export const getProducts = async (req: Request, res: Response) => {
   try {
     const data = await pool.query(
-      "SELECT * FROM products ORDER BY created_at DESC"
+      "SELECT * FROM products ORDER BY created_at DESC",
     );
     console.log("data :", data);
     res.status(200).json({ success: true, data: data.rows });
@@ -27,7 +27,7 @@ export const createProduct = async (req: Request, res: Response) => {
   try {
     const newProduct = await pool.query(
       "INSERT INTO products (name, price, image) VALUES ($1, $2, $3) RETURNING *",
-      [name, price, image]
+      [name, price, image],
     );
 
     res.status(201).json({
@@ -66,7 +66,7 @@ export const updateProduct = async (req: Request, res: Response) => {
   try {
     const data = await pool.query(
       "UPDATE products SET name=$1, price=$2, image=$3 WHERE id=$4 RETURNING *",
-      [name, price, image, id]
+      [name, price, image, id],
     );
 
     if (data.rowCount === 0) {
@@ -92,7 +92,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
   try {
     const data = await pool.query(
       "DELETE FROM products WHERE id=$1 RETURNING *",
-      [id]
+      [id],
     );
 
     if (data.rowCount === 0) {
