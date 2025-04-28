@@ -7,7 +7,9 @@
     "build": "tsc",
     "start": "tsx backend/server.ts",
     "dev": "nodemon --watch backend/**/*.ts --exec tsx backend/server.ts",
-    "lint": "eslint --fix ."
+    "lint": "eslint --fix .",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
