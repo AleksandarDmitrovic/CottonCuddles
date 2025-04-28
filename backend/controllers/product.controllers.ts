@@ -1,7 +1,11 @@
 import pool from "../db/index";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-export const getProducts = async (req: Request, res: Response) => {
+export const getProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const data = await pool.query(
       "SELECT * FROM products ORDER BY created_at DESC",
