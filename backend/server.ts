@@ -4,8 +4,11 @@ import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
 
+// @ts-expect-error arcjet seems to not have types
+import aj from "./lib/arcjet.js";
 import productRoutes from "./routes/product.routes";
 import pool from "./db/index";
+import { isSpoofedBot } from "@arcjet/inspect";
 
 dotenv.config();
 
@@ -14,10 +17,39 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
-app.use(helmet());
 // Helmet is a security middleware that helps you protect your Express apps by setting various HTTP headers
-app.use(morgan("dev"));
+app.use(helmet());
 // Log the requests to the console
+app.use(morgan("dev"));
+
+// apply arcjet rate-limit to all routes
+app.use(async (req, res, next) => {
+  try {
+    const decision = await aj.protect(req, { requested: 5 }); // Deduct 5 tokens from the bucket
+    // console.log("Arcjet decision", decision);
+    if (decision.isDenied()) {
+      if (decision.reason.isRateLimit()) {
+        res.status(429).json({ error: "Too Many Requests" });
+      } else if (decision.reason.isBot()) {
+        res.status(403).json({ error: "No bots allowed" });
+      } else {
+        res.status(403).json({ error: "Forbidden" });
+      }
+      return;
+    } else if (decision.results.some(isSpoofedBot)) {
+      // Arcjet Pro plan verifies the authenticity of common bots using IP data.
+      // Verification isn't always possible, so we recommend checking the decision
+      // separately.
+      // https://docs.arcjet.com/bot-protection/reference#bot-verification
+      res.status(403).json({ error: "Spoofed bot detected" });
+      return;
+    }
+    next();
+  } catch (error) {
+    console.error("Error in Arcjet middleware", error);
+    next(error);
+  }
+});
 
 app.use("/api/products", productRoutes);
 
