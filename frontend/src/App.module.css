@@ -14,7 +14,7 @@
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
-.logo.react:hover {
+.logoReact:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
@@ -37,6 +37,6 @@
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
+.readTheDocs {
+  color: #889;
 }
